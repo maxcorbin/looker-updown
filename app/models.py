@@ -1,4 +1,3 @@
-from . import slack
 import requests
 import json
 import random
