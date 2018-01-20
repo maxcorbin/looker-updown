@@ -9,7 +9,9 @@
 
 ```
 git clone git@github.com:maxcorbin/looker-updown.git
+cd looker-updown
 pip3 install -r requirements.txt
+export FLASK_APP=updown.py
 ```
 
 ## How to Run
