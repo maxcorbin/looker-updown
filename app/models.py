@@ -1,3 +1,4 @@
+from . import slack
 import requests
 import json
 import random
@@ -19,7 +20,7 @@ class Zendesk(object):
         self.url = 'https://status.zendesk.com/api/internal/incidents.json'
 
     def check(self, slack):
-        response = json.loads(requests.get(self.url))
+        response = json.loads(requests.get(self.url).text)
         incidents = response['current_incidents']
         if len(incidents) > 0:
             slack.api_call('chat.postMessage',
@@ -32,7 +33,7 @@ class TestService(object):
         return l[n:] + l[:n]
 
     def __init__(self):
-        self.dummies = [None]*19
+        self.dummies = [None]*1
         self.dummies = self.dummies + ['Test service is down!']
 
     def check(self, slack):
