@@ -1,4 +1,4 @@
-
+from slackclient import SlackClient
 
 class Status(dict):
     """This class represents status updates from the services that the
