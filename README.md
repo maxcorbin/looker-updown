@@ -1,10 +1,3 @@
-## Stuff Used
-- `virtualenvwrapper` to manage dependencies during development
-- `apscheduler` as the in-memory background job scheduler
-- `slackclient` to post to Slack
-- `flask` as the web application
-- `gunicorn` as the WSGI web server
-
 ## How to Install
 
 ```
@@ -30,3 +23,10 @@ Option 3: If using Heroku to deploy
 ```
 heroku local
 ```
+
+## Stuff Used
+- `virtualenvwrapper` to manage dependencies during development
+- `apscheduler` as the in-memory background job scheduler
+- `slackclient` to post to Slack
+- `flask` as the web application
+- `gunicorn` as the WSGI web server
