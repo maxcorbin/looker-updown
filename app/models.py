@@ -1,13 +1,23 @@
-from slackclient import SlackClient
+import requests
+import json
 
-class Status(dict):
-    """This class represents status updates from the services that the
-    module is monitoring.
-
-    Attributes:
-        service: A string containing the name of the service
-        up: A boolean indicating whether the service is up
+class Services(list):
+    """This class initializes each service and puts them in an array to iterate over when scheduling jobs. Temporary solution until I work out some persistence.
     """
-    def __init__(self, service, up):
-        self.service = service
-        self.up = up
+
+    def __init__(self):
+        self.append(Zendesk())
+
+class Zendesk(object):
+    """This class represents the Zendesk service that is polled for its status.
+    It is intended to be a singleton, but not yet implemented as such.
+    """
+
+    def __init__(self):
+        self.url = 'https://status.zendesk.com/api/internal/incidents.json'
+
+    def check(self, slack):
+        slack.api_call('chat.postMessage',
+            channel='#general',
+            text=('*Zendesk Status Update: *' + requests.get(self.url).text)
+    	)
