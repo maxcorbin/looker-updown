@@ -26,18 +26,30 @@ class Zendesk(object):
                 channel='#general',
                 text=('*Zendesk Status Update: *\n<!here> ' + str(incidents[0])))
 
+class GoodResponse(object):
+    def __init__(self):
+        self.text = 'Service is up'
+        self.status_code = 200
+
+    def __bool__(self):
+        return self.status_code < 400
+
+class BadResponse(object):
+    def __init__(self):
+        self.text = 'Service is down'
+        self.status_code = 404
+
+    def __bool__(self):
+        return self.status_code < 400
+
 class TestService(object):
 
-    def rotate(l, n):
-        return l[n:] + l[:n]
-
-    def __init__(self):
-        self.dummies = [None]*1
-        self.dummies = self.dummies + ['Test service is down!']
-
     def check(self, slack):
-        status = random.sample(self.dummies, 1)
-        if self.dummies[0]:
+        if random.randint(1, 100) == 1:
+            status =  BadResponse()
+        else:
+            status =  GoodResponse()
+        if not status:
             slack.api_call('chat.postMessage',
                 channel='#general',
-                text=('*Test Status Update: *\n<!here> ' + str(status)))
+                text=('*Test Status Update: *\n<!here> ' + status.text))
