@@ -9,9 +9,14 @@ app.config.from_object(Config)
 from . import routes
 from .models import Services
 
+r = redis.from_url(os.environ.get('REDIS_URL'))
+slack = SlackClient(os.environ.get('SLACK_TOKEN')
+
 scheduler = BackgroundScheduler()
+scheduler.add_jobstore('redis',
+    jobskey='updown.jobs',
+    run_times_key='updown.run_times')
 services = Services()
-slack = SlackClient(app.config['SLACK_TOKEN'])
 
 for service in services:
     scheduler.add_job(service.check, 'interval', seconds=1, args=[slack])
