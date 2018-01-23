@@ -30,3 +30,6 @@ heroku local
 - `slackclient` to post to Slack
 - `flask` as the web application
 - `gunicorn` as the WSGI web server
+- `json` for JSON parsing
+- `feedparser` for RSS parsing
+- `requests` for everything
