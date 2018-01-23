@@ -1,7 +1,9 @@
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.jobstores.redis import RedisJobStore
-from app import models, r
+from urllib.parse import urlparse
+from app import app, models
 
+redis_jobstore = urlparse(app.config['REDIS_URL'])
 
 scheduler = BackgroundScheduler(jobstores = {
     'default': RedisJobStore(
