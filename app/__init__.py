@@ -24,6 +24,6 @@ scheduler = BackgroundScheduler(jobstores = {
 services = Services()
 
 for service in services:
-    scheduler.add_job(service.check, 'interval', seconds=1, args=[slack])
+    scheduler.add_job(service.check, 'interval', seconds=5, args=[slack])
 
 scheduler.start()
