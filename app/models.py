@@ -1,5 +1,5 @@
 from requests import get
-from feedparser import parse as fparse
+from feedparser import parse
 from json import loads
 import random
 
@@ -19,7 +19,7 @@ class AWS(object):
         self.url = 'https://status.aws.amazon.com/rss/ec2-us-east-1.rss'
 
     def check(self, slack):
-        entries = fparse(self.url).entries
+        entries = parse(self.url).entries
 
 class Zendesk(object):
     """This class represents the Zendesk service that is polled for its status.
