@@ -1,15 +1,8 @@
 from requests import get
 from feedparser import parse
 from json import loads
-import random
+from random import randint
 
-class Services(list):
-    """This class initializes each service and puts them in an array to iterate over when scheduling jobs. Temporary solution until I work out some persistence.
-    """
-
-    def __init__(self):
-        self.append(Zendesk())
-        self.append(TestService())
 
 class AWS(object):
     """ Docstring TODO
@@ -17,9 +10,11 @@ class AWS(object):
 
     def __init__(self):
         self.url = 'https://status.aws.amazon.com/rss/ec2-us-east-1.rss'
+        self.cache = 'aws.cache'
 
-    def check(self, slack):
+    def check(self, post_to):
         entries = parse(self.url).entries
+
 
 class Zendesk(object):
     """This class represents the Zendesk service that is polled for its status.
@@ -28,39 +23,25 @@ class Zendesk(object):
 
     def __init__(self):
         self.url = 'https://status.zendesk.com/api/internal/incidents.json'
+        self.cache = 'zendesk.cache'
 
-    def check(self, slack):
-        response = loads(get(self.url).text)
-        incidents = response['current_incidents']
+    def check(self, post_to):
+        response = get(self.url)
+
+        incidents = loads(response).text['current_incidents']
         if len(incidents) > 0:
             slack.api_call('chat.postMessage',
                 channel='#general',
                 text=('*Zendesk Status Update: *\n<!here> ' + str(incidents[0])))
 
-class GoodResponse(object):
-    def __init__(self):
-        self.text = 'Service is up'
-        self.status_code = 200
-
-    def __bool__(self):
-        return self.status_code < 400
-
-class BadResponse(object):
-    def __init__(self):
-        self.text = 'Service is down'
-        self.status_code = 404
-
-    def __bool__(self):
-        return self.status_code < 400
 
 class TestService(object):
 
-    def check(self, slack):
-        if random.randint(1, 100) == 1:
-            status =  BadResponse()
-        else:
-            status =  GoodResponse()
-        if not status:
+    def __init__(self):
+        self.cache_key = 'testservice.cache'
+
+    def check(self, post_to):
+        if randint(1, 24) == 1:
             slack.api_call('chat.postMessage',
                 channel='#general',
-                text=('*Test Status Update: *\n<!here> ' + status.text))
+                text=('*Test Status Update: *\n<!here> ' + 'Service is down!'))
