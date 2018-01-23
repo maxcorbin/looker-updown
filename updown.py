@@ -1,10 +1,8 @@
-from app import app, redis, slack
+from app import app
 
 
 @app.shell_context_processor
 def make_shell_context():
     return {
-            'app': app,
-            'redis': redis,
-            'slack': slack
+            'app': app
             }
