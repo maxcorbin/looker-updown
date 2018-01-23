@@ -7,9 +7,9 @@ redis_jobstore = urlparse(app.config['REDIS_URL'])
 
 scheduler = BackgroundScheduler(jobstores = {
     'default': RedisJobStore(
-        host=r.hostname,
-        port=r.port,
-        password=r.password
+        host=redis_jobstore.hostname,
+        port=redis_jobstore.port,
+        password=redis_jobstore.password
     )
 })
 
