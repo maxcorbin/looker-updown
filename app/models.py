@@ -1,5 +1,6 @@
-import requests
-import json
+from requests import get
+from feedparser import parse
+from json import loads
 import random
 
 class Services(list):
@@ -10,6 +11,16 @@ class Services(list):
         self.append(Zendesk())
         self.append(TestService())
 
+class AWS(object):
+    """ Docstring TODO
+    """
+
+    def __init__(self):
+        self.url = 'https://status.aws.amazon.com/rss/ec2-us-east-1.rss'
+
+    def check(self, slack):
+        entries = parse(self.url).entries
+
 class Zendesk(object):
     """This class represents the Zendesk service that is polled for its status.
     It is intended to be a singleton, but not yet implemented as such.
@@ -19,7 +30,7 @@ class Zendesk(object):
         self.url = 'https://status.zendesk.com/api/internal/incidents.json'
 
     def check(self, slack):
-        response = json.loads(requests.get(self.url).text)
+        response = loads(get(self.url).text)
         incidents = response['current_incidents']
         if len(incidents) > 0:
             slack.api_call('chat.postMessage',
