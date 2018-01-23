@@ -1,5 +1,5 @@
 from requests import get
-from feedparser import fparse
+from feedparser import parse as fparse
 from json import loads
 import random
 
