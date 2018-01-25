@@ -1,2 +1,3 @@
 web: gunicorn updown:app
-clock: python clock.py
+clock: sh bin/celerybeat.sh
+worker: sh bin/celeryworker.sh
