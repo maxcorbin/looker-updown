@@ -1,4 +1,4 @@
-singleton: sh bin/singleton.sh
+singleton: source bin/singleton.sh
 web: gunicorn updown:app
-clock: sh bin/celerybeat.sh
-worker: sh bin/celeryworker.sh
+clock: source bin/celerybeat.sh
+worker: source bin/celeryworker.sh
