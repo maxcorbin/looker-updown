@@ -9,6 +9,7 @@ task_serializer = 'json'
 result_serializer = 'json'
 
 redis_max_connections = int(os.environ.get('CELERY_REDIS_MAX_CONNECTIONS')) or 20
+broker_pool_limit = int(os.environ.get('CELERY_BROKER_POOL_LIMIT')) or 10
 
 beat_schedule = {
     'zendesk.checks': {
