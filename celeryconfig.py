@@ -8,6 +8,8 @@ accept_content = ['json', 'msgpack', 'yaml']
 task_serializer = 'json'
 result_serializer = 'json'
 
+redis_max_connections = 20
+
 beat_schedule = {
     'zendesk.checks': {
         'task': 'updown.tasks.checks.check_zendesk',
