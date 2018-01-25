@@ -1,2 +1,2 @@
 celery -A updown.celery worker \
---loglevel=INFO
+--loglevel=$CELERY_WORKER_LOGLEVEL
